@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Dhgms.DataManager.Extended</id>
+    <version>0.1207.15.0</version>
+    <title>DHGMS Data Manager Extended</title>
+    <authors>DHGMS Solutions</authors>
+    <owners>DHGMS Solutions</owners>
+    <projectUrl>http://datamanager.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A base library for performing Data orientated tasks. This is an extension to the Data Manager library, which contains code which has a dependancy on other 3rd party libraries.</description>
+    <copyright>Copyright 2004-2012 DHGMS Solutions</copyright>
+    <tags>T4 DHGMS Data</tags>
+    <dependencies>
+      <dependency id="Dhgms.DataManager" version="0.1207.7.0" />
+      <dependency id="dnpextensions" version="2011.6.0.0" />
+      <dependency id="Kent.Boogaart.KBCsv" version="1.4.0.0" />
+      <dependency id="PGK.Extensions" version="2011.6" />
+    </dependencies>
+    <references>
+      <reference file="ARSoft.Tools.Net.Signed.dll" />
+      <reference file="Dhgms.DataManager.Extended.dll" />
+    </references>
+  </metadata>
+</package>
