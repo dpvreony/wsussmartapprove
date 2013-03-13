@@ -19,6 +19,7 @@ namespace SmartApprove
 
     using SmartApprove.Controller;
     using SmartApprove.Model;
+    using SmartApprove.Model.Excptn;
     using SmartApprove.Model.Helper;
 
     using SmartLib.Model;
@@ -940,7 +941,10 @@ namespace SmartApprove
         private static void Main(string[] args)
         {
             ShowHeader();
-            if (args == null || args.GetLength(0) == 0)
+
+            CheckWindowsVersion();
+
+            if (args == null || !args.Any())
             {
                 ShowHelp();
                 return;
@@ -952,6 +956,8 @@ namespace SmartApprove
                 ShowHelp();
                 return;
             }
+
+            // todo: add support for job monitoring
 
             // Check config file
             ApplicationSettings settings = LoadSettings();
@@ -1001,12 +1007,32 @@ namespace SmartApprove
             }
         }
 
+        private static void CheckWindowsVersion()
+        {
+            var osVersion = Environment.Version;
+
+#if WINDOWS6_2
+            // Being built for Windows 6_2
+            if (osVersion < new Version(6, 2))
+            {
+                throw new UnsupportedOperatingSystemException(
+                    @"You are running a version of Windows prior to Windows 8 \ Server 2012.  You need to use Smart Approve for WSUS 3 (SmartApprove.exe)");
+            }
+#else
+            // Being built for older version of Windows
+            if (osVersion >= new Version(6, 2))
+            {
+                throw new UnsupportedOperatingSystemException(@"You are running Windows 6.2 (Windows 8 \ Server 2012) or later.  You need to use SmartApprove for Windows V6.2 (SmartApprove6_2.exe.");
+            }
+#endif
+        }
+
         /// <summary>
         /// Shows the header information
         /// </summary>
         private static void ShowHeader()
         {
-            const string version = "1.0.0.6";
+            var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             Console.Out.WriteLine("WSUS Smart Approve " + version + " (http://wsussmartapprove.codeplex.com)");
             Console.Out.WriteLine("(C)Copyright 2009-2012 DHGMS Solutions. Some Rights Reserved.\n");
         }

@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SmartApprove</RootNamespace>
     <AssemblyName>SmartApprove</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -35,6 +35,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -77,8 +78,14 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.UpdateServices.Administration, Version=3.1.6001.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.UpdateServices.Administration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Update Services\Api\Microsoft.UpdateServices.Administration.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -95,11 +102,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\CommandLine.cs" />
+    <Compile Include="Controller\Job.cs" />
+    <Compile Include="Controller\Task\ApproveUpdates.cs" />
+    <Compile Include="Controller\Task\GetUpdatesNeedingApproval.cs" />
     <Compile Include="Model\AllTargetGroups.cs" />
     <Compile Include="Model\ApplicationSettings.cs" />
     <Compile Include="Model\Classification.cs" />
     <Compile Include="Model\ClassificationCollection.cs" />
     <Compile Include="Model\CommandLineSettings.cs" />
+    <Compile Include="Model\Excptn\UnsupportedOperatingSystemException.cs" />
     <Compile Include="Model\Helper\Configuration.cs" />
     <Compile Include="Model\Helper\CopyFrom.cs" />
     <Compile Include="Model\Product.cs" />
@@ -120,6 +131,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SmartLib\SmartLib.csproj">

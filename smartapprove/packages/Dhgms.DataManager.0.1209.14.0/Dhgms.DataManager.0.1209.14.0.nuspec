@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Dhgms.DataManager</id>
+    <version>0.1209.14.0</version>
+    <title>DHGMS Data Manager</title>
+    <authors>DHGMS Solutions</authors>
+    <owners>DHGMS Solutions</owners>
+    <projectUrl>http://datamanager.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A base library for performing Data orientated tasks. Designed to be used in conjunction with code generated using the DHGMS Nucleotide library.</description>
+    <copyright>Copyright 2004-2012 DHGMS Solutions</copyright>
+    <tags>T4 DHGMS Data</tags>
+    <dependencies>
+      <dependency id="EntityFramework" version="5.0.0" />
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System" targetFramework="" />
+      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="" />
+      <frameworkAssembly assemblyName="System.Configuration" targetFramework="" />
+      <frameworkAssembly assemblyName="System.Core" targetFramework="" />
+      <frameworkAssembly assemblyName="System.Data" targetFramework="" />
+      <frameworkAssembly assemblyName="System.Data.Entity" targetFramework="" />
+      <frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework="" />
+      <frameworkAssembly assemblyName="System.Xml" targetFramework="" />
+      <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="" />
+    </frameworkAssemblies>
+    <references>
+      <reference file="Dhgms.DataManager.dll" />
+    </references>
+  </metadata>
+</package>
