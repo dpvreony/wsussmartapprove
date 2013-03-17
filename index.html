@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<title>{{ page.title }} - WSUS Smart Approve Documentation</title>
+		<title>WSUS Smart Approve Documentation</title>
 		<link rel="stylesheet" href="/css/bootstrap.css" type="text/css" />
 		<link rel="stylesheet" href="/css/font-awesome.css" type="text/css" />
 		<link rel="stylesheet" href="/css/site.css" type="text/css" />
@@ -38,24 +38,25 @@
   <li>
     <a href="#history">Project history</a>
     <ol>
-      <li><a href=#implemented">Implemented.</a></li>
-      <li><a href=#roadmap">Road Map.</a></li>
+      <li><a href="#implemented">Implemented.</a></li>
+      <li><a href="#roadmap">Road Map.</a></li>
     </ol>
   </li>
-  <li><a href="#credits>Credits</a></li>
+  <li><a href="#credits">Credits</a></li>
+</ol>
 
-<a id="introduction" /><h2>Introduction</h2>
+<a id="introduction"></a><h2>Introduction</h2>
 <p>WSUS Smart Approve is a tool for Microsoft Windows Server Update Service. Its purpose to approve updates as they are detected as being needed. The reason for this approach is for IT departments that want to deploy all needed updates automatically, but don't want to download every single update off Microsoft as they now pass (as of March 2009) 40GB across 26k updates in the English language alone!</p>
 <p>Only a small portion of these will ever be needed, so allowing a machine to report what updates it is lacking and then approving them is a better use of disk space, bandwidth and time. Usually this approach would require someone to periodically check the WSUS administration control panel and approve downloads. This tool removes the need for this by automating this checking process.</p>
 <p>This tool has been tested with WSUS 3.0 (all service packs) and Microsoft System Center Essentials 2010.</p>
 
-<a id="downloading" /><h2>Downloading WSUS Smart Approve</h2>
+<a id="downloading"></a><h2>Downloading WSUS Smart Approve</h2>
 <div class="alert">
     <p>If you downloaded the WSUS Smart Approve from somewhere other than the <a href="http://wsussmartapprove.codeplex.com">Codeplex project</a> please check your download.  There are various mirrors on advert driven download sites who are hosting a copy without our involvement, due to the license they're not required to get our permission. Codeplex is the only site where we have control of the contents of the download, we can not guarantee modifications, malicious or otherwise have not been carried out on these mirrors.</p>
 </div>
 <p><a href="http://wsussmartapprove.codeplex.com/releases/">WSUS Smart Approve is available from CodePlex</a>.</p>
 
-<a id="configuring" /><h2>Configuring WSUS Smart Approve.</h2>
+<a id="configuring"></a><h2>Configuring WSUS Smart Approve.</h2>
 
 <p>WSUS Smart Approve is a console application that is intended to be run on a regular basis, i.e. as a scheduled task.  The more frequently it is run, the less time there will be between an update being reported as needed, and it being approved for download.</p>
 
@@ -65,7 +66,7 @@
 
 <p>In order to carry out these tasks you need to have administrator access.  The login which you choose to run WSUS Smart Approve under must have administrator access.  You can add an account to your domain specifically for this tool, for now I will leave a search engine as your source for instructions on how to do this.</p>
 
-<a id="configwsus" /><h3>Configuring WSUS.</h3>
+<a id="configwsus"></a><h3>Configuring WSUS.</h3>
 
 <p>WSUS needs to be set to detect all the classifications and products you wish to be approved.  A pre-exisiting WSUS setup will most likely already be set to do this, you just need to stop it automatically approving everything.</p>
 
@@ -79,7 +80,7 @@
 <li>Note: If you just want to detect everything and not approve them automatically you want to delete the default rule (as it must have 1 option chosen at all times), this decision is down to you.</li>
 </ul>
 
-<a id="configxml" /><h3>Configuring the XML file.</h3>
+<a id="configxml"></a><h3>Configuring the XML file.</h3>
 
 <p>Below is the default settings. These apply updates to all machines that need them, will approve stale updates, and approve any update that needs a license agreement.</p>
 
@@ -247,7 +248,7 @@ This is run when you don't specify a /norunset on the command line.  This follow
 <h4>Products (new in V1.0.0.2)</h4>
 Products match the Product Categories defined in WSUS, the config requires a GUID which can be obtained by the ListGuids tool.  If the products section is missing the classification rules will be applied to ALL products.
 
-<a id="configcommandline" /><h3>Working out the command line.</h3>
+<a id="configcommandline"></a><h3>Working out the command line.</h3>
 
 <p>The command line depends on how you have <a href="#configxml">configured the XML config</a>.  If you wish to use the <b>no runset</b> approach you use the command:</p>
 
@@ -260,11 +261,10 @@ Products match the Product Categories defined in WSUS, the config requires a GUI
 <p>If the name of the runset contains a space it *must* be surrounded by quotes.</p>
 
 <p>If you wish to see how your configuration will be applied, without actually applying changes you can use the test mode which is as simple as adding /test onto the relevant command like so:</p>
-
 	SmartApprove.exe /norunset /test
 	SmartApprove.exe /runset "name" /test
 
-<a id="configtask" /><h3>Configuring a scheduled task.</h3>
+<a id="configtask"></a><h3>Configuring a scheduled task.</h3>
 
 <ul>
 <li>Navigate to Control Panel -> Administrative Tools -> Task Scheduler (On Windows Server 2003 and earlier the path is Control Panel -> Scheduled Tasks).</li>
@@ -297,9 +297,9 @@ Products match the Product Categories defined in WSUS, the config requires a GUI
 <li>Set a duration of 23:55.</li>
 </ul>
 
-<a id="sourcecode" /><h2>Working with the source code.</h2>
+<a id="sourcecode"></a><h2>Working with the source code.</h2>
 
-<a id="documentation" /><h2>Contributing to the documentation.</h2>
+<a id="documentation"></a><h2>Contributing to the documentation.</h2>
 
 <p>Contributions to the documentation are more than welcome, and the process is designed to be as simple as possible.</p>
 
@@ -315,8 +315,8 @@ Products match the Product Categories defined in WSUS, the config requires a GUI
 
 <p>See the <a href="http://help.github.com/send-pull-requests/">github help page for instructions on how to send pull requests</a></p>
 
-<a id="history" /><h2>Project History.</h2>
-<a id="implemented" /><h3>Implemented.</h3>
+<a id="history"></a><h2>Project History.</h2>
+<a id="implemented"></a><h3>Implemented.</h3>
 <ul>
 <li><a href="#v1_0_2">V1.0.2</a></li>
 <li><a href="#v1_0_1">V1.0.1</a></li>
@@ -348,7 +348,7 @@ For a more detailed history you can <a href="http://wsussmartapprove.codeplex.co
 <ul>
   <li>Declined updates are no longer approved if they have a history of being needed.</li>
   <li>Changed the way the config file is checked for detecting AllClassifications or ProductClassification inside a runset.</li>
-<ul>
+</ul>
 
 <h3 id="v1_0_0_4">V1.0.0.4 (23 January 2012)</h3>
 
@@ -397,9 +397,9 @@ For a more detailed history you can <a href="http://wsussmartapprove.codeplex.co
 <li>Initial Release.</li>
 </ul>
 
-<a id="roadmap" /><h3>Road Map.</h3>
+<a id="roadmap"></a><h3>Road Map.</h3>
 
-<a id="credits" /><h2>Credits.</h2>
+<a id="credits"></a><h2>Credits.</h2>
 <h3>Main Project</h3>
 <dl class="dl-horizontal">
 <dt><a href="http://www.dpvreony.co.uk">David Vreony</a></dt>
@@ -416,11 +416,8 @@ For a more detailed history you can <a href="http://wsussmartapprove.codeplex.co
 <li><a href="http://fortawesome.github.com/Font-Awesome/">Font Awesome</a></li>
 <li><a href="http://pages.github.com/">Github Pages</a></li>
 <li><a href="http://code.google.com/p/google-code-prettify/">Google Prettify</a></li>
-<li><a href="https://github.com/mojombo/jekyll">Jekyl</a></li>
-<li><a href="http://daringfireball.net/projects/markdown/">Markdown</a></li>
 <li><a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a></li>
 </ul>
-</ol>
                    </div>
                    <div class="span2">
 <li class="nav-header">Project Links</li>
