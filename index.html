@@ -45,18 +45,18 @@
   <li><a href="#credits">Credits</a></li>
 </ol>
 
-<a id="introduction" /><h2>Introduction</h2>
+<a id="introduction"></a><h2>Introduction</h2>
 <p>WSUS Smart Approve is a tool for Microsoft Windows Server Update Service. Its purpose to approve updates as they are detected as being needed. The reason for this approach is for IT departments that want to deploy all needed updates automatically, but don't want to download every single update off Microsoft as they now pass (as of March 2009) 40GB across 26k updates in the English language alone!</p>
 <p>Only a small portion of these will ever be needed, so allowing a machine to report what updates it is lacking and then approving them is a better use of disk space, bandwidth and time. Usually this approach would require someone to periodically check the WSUS administration control panel and approve downloads. This tool removes the need for this by automating this checking process.</p>
 <p>This tool has been tested with WSUS 3.0 (all service packs) and Microsoft System Center Essentials 2010.</p>
 
-<a id="downloading" /><h2>Downloading WSUS Smart Approve</h2>
+<a id="downloading"></a><h2>Downloading WSUS Smart Approve</h2>
 <div class="alert">
     <p>If you downloaded the WSUS Smart Approve from somewhere other than the <a href="http://wsussmartapprove.codeplex.com">Codeplex project</a> please check your download.  There are various mirrors on advert driven download sites who are hosting a copy without our involvement, due to the license they're not required to get our permission. Codeplex is the only site where we have control of the contents of the download, we can not guarantee modifications, malicious or otherwise have not been carried out on these mirrors.</p>
 </div>
 <p><a href="http://wsussmartapprove.codeplex.com/releases/">WSUS Smart Approve is available from CodePlex</a>.</p>
 
-<a id="configuring" /><h2>Configuring WSUS Smart Approve.</h2>
+<a id="configuring"></a><h2>Configuring WSUS Smart Approve.</h2>
 
 <p>WSUS Smart Approve is a console application that is intended to be run on a regular basis, i.e. as a scheduled task.  The more frequently it is run, the less time there will be between an update being reported as needed, and it being approved for download.</p>
 
@@ -80,7 +80,7 @@
 <li>Note: If you just want to detect everything and not approve them automatically you want to delete the default rule (as it must have 1 option chosen at all times), this decision is down to you.</li>
 </ul>
 
-<a id="configxml" /><h3>Configuring the XML file.</h3>
+<a id="configxml"></a><h3>Configuring the XML file.</h3>
 
 <p>Below is the default settings. These apply updates to all machines that need them, will approve stale updates, and approve any update that needs a license agreement.</p>
 
@@ -297,9 +297,9 @@ Products match the Product Categories defined in WSUS, the config requires a GUI
 <li>Set a duration of 23:55.</li>
 </ul>
 
-<a id="sourcecode" /><h2>Working with the source code.</h2>
+<a id="sourcecode"></a><h2>Working with the source code.</h2>
 
-<a id="documentation" /><h2>Contributing to the documentation.</h2>
+<a id="documentation"></a><h2>Contributing to the documentation.</h2>
 
 <p>Contributions to the documentation are more than welcome, and the process is designed to be as simple as possible.</p>
 
@@ -397,9 +397,9 @@ For a more detailed history you can <a href="http://wsussmartapprove.codeplex.co
 <li>Initial Release.</li>
 </ul>
 
-<a id="roadmap" /><h3>Road Map.</h3>
+<a id="roadmap"></a><h3>Road Map.</h3>
 
-<a id="credits" /><h2>Credits.</h2>
+<a id="credits"></a><h2>Credits.</h2>
 <h3>Main Project</h3>
 <dl class="dl-horizontal">
 <dt><a href="http://www.dpvreony.co.uk">David Vreony</a></dt>
