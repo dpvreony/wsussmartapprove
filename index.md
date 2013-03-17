@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<title>{{ page.title }} - WSUS Smart Approve Documentation</title>
+		<title>WSUS Smart Approve Documentation</title>
 		<link rel="stylesheet" href="/css/bootstrap.css" type="text/css" />
 		<link rel="stylesheet" href="/css/font-awesome.css" type="text/css" />
 		<link rel="stylesheet" href="/css/site.css" type="text/css" />
@@ -260,7 +260,6 @@ Products match the Product Categories defined in WSUS, the config requires a GUI
 <p>If the name of the runset contains a space it *must* be surrounded by quotes.</p>
 
 <p>If you wish to see how your configuration will be applied, without actually applying changes you can use the test mode which is as simple as adding /test onto the relevant command like so:</p>
-
 	SmartApprove.exe /norunset /test
 	SmartApprove.exe /runset "name" /test
 
