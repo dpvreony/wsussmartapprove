@@ -43,6 +43,7 @@
     </ol>
   </li>
   <li><a href="#credits>Credits</a></li>
+</ol>
 
 <a id="introduction" /><h2>Introduction</h2>
 <p>WSUS Smart Approve is a tool for Microsoft Windows Server Update Service. Its purpose to approve updates as they are detected as being needed. The reason for this approach is for IT departments that want to deploy all needed updates automatically, but don't want to download every single update off Microsoft as they now pass (as of March 2009) 40GB across 26k updates in the English language alone!</p>
@@ -419,7 +420,6 @@ For a more detailed history you can <a href="http://wsussmartapprove.codeplex.co
 <li><a href="http://daringfireball.net/projects/markdown/">Markdown</a></li>
 <li><a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a></li>
 </ul>
-</ol>
                    </div>
                    <div class="span2">
 <li class="nav-header">Project Links</li>
