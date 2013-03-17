@@ -66,7 +66,7 @@
 
 <p>In order to carry out these tasks you need to have administrator access.  The login which you choose to run WSUS Smart Approve under must have administrator access.  You can add an account to your domain specifically for this tool, for now I will leave a search engine as your source for instructions on how to do this.</p>
 
-<a id="configwsus" /><h3>Configuring WSUS.</h3>
+<a id="configwsus"></a><h3>Configuring WSUS.</h3>
 
 <p>WSUS needs to be set to detect all the classifications and products you wish to be approved.  A pre-exisiting WSUS setup will most likely already be set to do this, you just need to stop it automatically approving everything.</p>
 
@@ -248,7 +248,7 @@ This is run when you don't specify a /norunset on the command line.  This follow
 <h4>Products (new in V1.0.0.2)</h4>
 Products match the Product Categories defined in WSUS, the config requires a GUID which can be obtained by the ListGuids tool.  If the products section is missing the classification rules will be applied to ALL products.
 
-<a id="configcommandline" /><h3>Working out the command line.</h3>
+<a id="configcommandline"></a><h3>Working out the command line.</h3>
 
 <p>The command line depends on how you have <a href="#configxml">configured the XML config</a>.  If you wish to use the <b>no runset</b> approach you use the command:</p>
 
@@ -264,7 +264,7 @@ Products match the Product Categories defined in WSUS, the config requires a GUI
 	SmartApprove.exe /norunset /test
 	SmartApprove.exe /runset "name" /test
 
-<a id="configtask" /><h3>Configuring a scheduled task.</h3>
+<a id="configtask"></a><h3>Configuring a scheduled task.</h3>
 
 <ul>
 <li>Navigate to Control Panel -> Administrative Tools -> Task Scheduler (On Windows Server 2003 and earlier the path is Control Panel -> Scheduled Tasks).</li>
@@ -315,8 +315,8 @@ Products match the Product Categories defined in WSUS, the config requires a GUI
 
 <p>See the <a href="http://help.github.com/send-pull-requests/">github help page for instructions on how to send pull requests</a></p>
 
-<a id="history" /><h2>Project History.</h2>
-<a id="implemented" /><h3>Implemented.</h3>
+<a id="history"></a><h2>Project History.</h2>
+<a id="implemented"></a><h3>Implemented.</h3>
 <ul>
 <li><a href="#v1_0_2">V1.0.2</a></li>
 <li><a href="#v1_0_1">V1.0.1</a></li>
@@ -348,7 +348,7 @@ For a more detailed history you can <a href="http://wsussmartapprove.codeplex.co
 <ul>
   <li>Declined updates are no longer approved if they have a history of being needed.</li>
   <li>Changed the way the config file is checked for detecting AllClassifications or ProductClassification inside a runset.</li>
-<ul>
+</ul>
 
 <h3 id="v1_0_0_4">V1.0.0.4 (23 January 2012)</h3>
 
@@ -416,8 +416,6 @@ For a more detailed history you can <a href="http://wsussmartapprove.codeplex.co
 <li><a href="http://fortawesome.github.com/Font-Awesome/">Font Awesome</a></li>
 <li><a href="http://pages.github.com/">Github Pages</a></li>
 <li><a href="http://code.google.com/p/google-code-prettify/">Google Prettify</a></li>
-<li><a href="https://github.com/mojombo/jekyll">Jekyl</a></li>
-<li><a href="http://daringfireball.net/projects/markdown/">Markdown</a></li>
 <li><a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a></li>
 </ul>
                    </div>
