@@ -10,6 +10,8 @@ namespace SmartApprove.Model.Helper
 
     using Microsoft.UpdateServices.Administration;
 
+    using SmartApprove.Controller;
+
     /// <summary>
     /// Copy approvals from one target group to another.
     /// </summary>
@@ -131,7 +133,7 @@ namespace SmartApprove.Model.Helper
                                 Console.Out.Write("(TEST) ");
                             }
 
-                            Program.ApproveUpdateForTargetGroup(update, destinationGroup, isTest, null);
+                            Job.ApproveUpdateForTargetGroup(update, destinationGroup, isTest, null);
                         }
                     }
                     else
@@ -147,7 +149,7 @@ namespace SmartApprove.Model.Helper
                             Console.Out.Write("(TEST) ");
                         }
 
-                        Program.ApproveUpdateForTargetGroup(update, destinationGroup, isTest, null);
+                        Job.ApproveUpdateForTargetGroup(update, destinationGroup, isTest, null);
                     }
                 }
             }
