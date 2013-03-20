@@ -40,13 +40,15 @@ namespace SmartApprove
                     // need to try to load old version
                     if (!alreadyTriedRedirect)
                     {
+                        /*
                         var programFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
                         if (!programFiles.EndsWith(@"\"))
                         {
                             programFiles = programFiles + @"\";
                         }
+                         * */
 
-                        redirect = Assembly.LoadFile(string.Format("{0}Microsoft.UpdateServices.Administration.dll", programFiles));
+                        redirect = Assembly.LoadFrom("Microsoft.UpdateServices.Administration, Version=3.1.6001.0");
                         alreadyTriedRedirect = true;
                     }
 
