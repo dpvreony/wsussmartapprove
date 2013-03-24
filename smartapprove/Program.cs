@@ -34,26 +34,23 @@ namespace SmartApprove
 
             if (name.Equals("Microsoft.UpdateServices.Administration"))
             {
-                var windows8 = new Version(6, 2);
-                if (Environment.OSVersion.Version < windows8)
-                {
-                    // need to try to load old version
-                    if (!alreadyTriedRedirect)
-                    {
-                        /*
-                        var programFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-                        if (!programFiles.EndsWith(@"\"))
-                        {
-                            programFiles = programFiles + @"\";
-                        }
-                         * */
+                // Microsoft changed version numbers when putting WSUS Admin API into RSAT.
+                // Need to try and maintain backward compatability.
 
-                        redirect = Assembly.LoadFrom("Microsoft.UpdateServices.Administration, Version=3.1.6001.0");
-                        alreadyTriedRedirect = true;
+                if (!alreadyTriedRedirect)
+                {
+                    alreadyTriedRedirect = true;
+
+                    var programFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+                    if (!programFiles.EndsWith(@"\"))
+                    {
+                        programFiles = programFiles + @"\";
                     }
 
-                    return redirect;
+                    redirect = Assembly.LoadFrom(string.Format("{0}Update Services\\Api\\Microsoft.UpdateServices.Administration.dll", programFiles));
                 }
+
+                return redirect;
             }
 
             return null;
