@@ -99,7 +99,6 @@
 
         /// <summary>
         /// Copy a series of updates
-        /// but have not been detected as needed
         /// </summary>
         [ConfigurationProperty("CopyFrom", IsRequired = false)]
         public Guid CopyFrom
@@ -112,6 +111,23 @@
             set
             {
                 this["CopyFrom"] = value;
+            }
+        }
+
+        /// <summary>
+        /// Approve updates that supersede previously uninstalled updates
+        /// </summary>
+        [ConfigurationProperty("ShouldApproveUninstalledSupersededUpdate", IsRequired = true)]
+        public bool ShouldApproveUninstalledSupersededUpdate
+        {
+            get
+            {
+                return (bool)this["ShouldApproveUninstalledSupersededUpdate"];
+            }
+
+            set
+            {
+                this["ShouldApproveUninstalledSupersededUpdate"] = value;
             }
         }
 

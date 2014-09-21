@@ -121,19 +121,27 @@ namespace SmartApprove.Model.Helper
                         // destination group has an approval; check to see if we need to overwrite it
                         if (destinationApproval.Action != sourceApproval.Action)
                         {
-                            // the approvals are different; overwrite
-                            Console.Out.WriteLine(
-                                "Changing approval for {0} from {1} to {2} for group {3}.", 
-                                update.Title, 
-                                destinationApproval.Action, 
-                                sourceApproval.Action, 
-                                destinationGroup.Name);
-                            if (isTest)
+                            if (destinationApproval.Action == UpdateApprovalAction.Uninstall)
                             {
-                                Console.Out.Write("(TEST) ");
+                                // TODO : allow a rule to override this.
+                                Console.WriteLine("Skipping copy of approval on {0} as marked for uninstall in {1}.", update.Title, destinationGroup.Name);
                             }
+                            else
+                            {
+                                // the approvals are different; overwrite
+                                Console.Out.WriteLine(
+                                    "Changing approval for {0} from {1} to {2} for group {3}.",
+                                    update.Title,
+                                    destinationApproval.Action,
+                                    sourceApproval.Action,
+                                    destinationGroup.Name);
+                                if (isTest)
+                                {
+                                    Console.Out.Write("(TEST) ");
+                                }
 
-                            Job.ApproveUpdateForTargetGroup(update, destinationGroup, isTest, null);
+                                Job.ApproveUpdateForTargetGroup(update, destinationGroup, isTest, null);                                
+                            }
                         }
                     }
                     else

@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Job.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The job.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace SmartApprove.Controller
 {
+    using System;
+    using System.Collections.Generic;
     using System.Configuration;
+    using System.Linq;
+    using System.Reflection;
 
     using Microsoft.UpdateServices.Administration;
 
@@ -15,11 +22,16 @@ namespace SmartApprove.Controller
 
     using SmartLib.Model;
 
-    using Configuration = System.Configuration.Configuration;
+    using Configuration = SmartApprove.Model.Helper.Configuration;
     using Server = SmartLib.Controller.Server;
 
-    class Job
+    /// <summary>
+    /// The job.
+    /// </summary>
+    internal class Job
     {
+        #region Public Methods and Operators
+
         /// <summary>
         /// Approves and update and checks for child target groups
         /// </summary>
@@ -36,7 +48,10 @@ namespace SmartApprove.Controller
         /// List of target groups that have already been processed
         /// </param>
         public static void ApproveUpdateForTargetGroup(
-            IUpdate update, IComputerTargetGroup targetGroup, bool isTest, List<IComputerTargetGroup> alreadyProcessed)
+            IUpdate update, 
+            IComputerTargetGroup targetGroup, 
+            bool isTest, 
+            List<IComputerTargetGroup> alreadyProcessed)
         {
             if (isTest)
             {
@@ -74,6 +89,7 @@ namespace SmartApprove.Controller
         /// Loads the application settings
         /// </summary>
         /// <returns>
+        /// The <see cref="ApplicationSettings"/>.
         /// </returns>
         public static ApplicationSettings LoadSettings()
         {
@@ -84,8 +100,87 @@ namespace SmartApprove.Controller
         }
 
         /// <summary>
+        /// The execute.
+        /// </summary>
+        /// <exception cref="UnauthorizedAccessException">
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// </exception>
+        public void Execute()
+        {
+            ShowHeader();
+
+            string[] args = Environment.GetCommandLineArgs().Skip(1).ToArray();
+            if (!args.Any())
+            {
+                ShowHelp();
+                return;
+            }
+
+            var commandLine = new CommandLine(args);
+            if (commandLine.GetWantsHelp())
+            {
+                ShowHelp();
+                return;
+            }
+
+            // todo: add support for job monitoring
+
+            // Check config file
+            ApplicationSettings settings = LoadSettings();
+
+            // Connect to server
+            IUpdateServer server = Server.Connect(settings.Server);
+
+            // Check user has admin access
+            UpdateServerUserRole role = server.GetCurrentUserRole();
+            if (role != UpdateServerUserRole.Administrator)
+            {
+                throw new UnauthorizedAccessException("You don't have administrator access on the WSUS server.");
+            }
+
+            // Get the default rule
+            bool isTest = commandLine.GetIsTest();
+            RunSetCollection runSets = settings.RunSets;
+
+            switch (commandLine.GetUseRunSet())
+            {
+                case TriState.Yes:
+                    if (runSets == null || runSets.Count == 0)
+                    {
+                        throw new InvalidOperationException(
+                            "/runset specified on the command line.  But there are no runsets defined in the config file.");
+                    }
+
+                    // we have run sets
+                    // this means our approval logic is more complex
+                    DoRunSets(server, runSets, commandLine, isTest);
+
+                    break;
+
+                case TriState.No:
+                    DoNoRunSets(settings, server, isTest);
+
+                    break;
+
+                default:
+                    if (runSets != null && runSets.Count > 0)
+                    {
+                        throw new InvalidOperationException(
+                            "RunSets exist in the application config. /norunset or /runset must be specified on the command line.");
+                    }
+
+                    break;
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
         /// Approves a superseded update
-        /// Using previous approval settings
+        ///     Using previous approval settings
         /// </summary>
         /// <param name="newUpdate">
         /// The new update
@@ -99,8 +194,15 @@ namespace SmartApprove.Controller
         /// <param name="recentlyApproved">
         /// List of recently approved updates
         /// </param>
+        /// <param name="shouldApproveUninstalledSupersededUpdate">
+        /// Whether an update that has been uninstalled should be approved if superseded.
+        /// </param>
         private static void ApproveSupersededUpdate(
-            IUpdate newUpdate, IUpdate previousUpdate, bool isTest, List<Guid> recentlyApproved)
+            IUpdate newUpdate, 
+            IUpdate previousUpdate, 
+            bool isTest, 
+            List<Guid> recentlyApproved, 
+            bool shouldApproveUninstalledSupersededUpdate)
         {
             if (isTest)
             {
@@ -120,6 +222,16 @@ namespace SmartApprove.Controller
             foreach (IUpdateApproval approval in approvals)
             {
                 IComputerTargetGroup ctg = approval.GetComputerTargetGroup();
+
+                if (approval.Action == UpdateApprovalAction.Uninstall && !shouldApproveUninstalledSupersededUpdate)
+                {
+                    // this update has been marked for removal
+                    Console.WriteLine(
+                        " WARNING: Superseded update is marked for uninstall and settings don't allow it to be automatically approved. Target group: "
+                        + ctg.Name);
+
+                    continue;
+                }
 
                 newUpdate.Approve(UpdateApprovalAction.Install, ctg);
 
@@ -351,8 +463,15 @@ namespace SmartApprove.Controller
         /// <param name="recentlyApproved">
         /// List of recently approved updates
         /// </param>
+        /// <param name="shouldApproveUninstalledSupersededUpdate">
+        /// The should Approve Uninstalled Superseded Update.
+        /// </param>
         private static void CheckSupersededUpdate(
-            IUpdate update, bool approveLicenseAgreement, bool isTest, List<Guid> recentlyApproved)
+            IUpdate update, 
+            bool approveLicenseAgreement, 
+            bool isTest, 
+            List<Guid> recentlyApproved, 
+            bool shouldApproveUninstalledSupersededUpdate)
         {
             UpdateCollection superseding = update.GetRelatedUpdates(UpdateRelationship.UpdatesThatSupersedeThisUpdate);
 
@@ -383,7 +502,12 @@ namespace SmartApprove.Controller
                         newUpdate.AcceptLicenseAgreement();
                     }
 
-                    ApproveSupersededUpdate(newUpdate, update, isTest, recentlyApproved);
+                    ApproveSupersededUpdate(
+                        newUpdate, 
+                        update, 
+                        isTest, 
+                        recentlyApproved, 
+                        shouldApproveUninstalledSupersededUpdate);
                 }
 
                 return;
@@ -411,13 +535,17 @@ namespace SmartApprove.Controller
         /// <param name="isTest">
         /// Whether we are in test mode
         /// </param>
+        /// <param name="shouldApproveUninstalledSupersededUpdate">
+        /// The should Approve Uninstalled Superseded Update.
+        /// </param>
         private static void CheckSupersededUpdates(
             IUpdateServer server, 
             bool approveLicenseAgreement, 
             IComputerTargetGroup computerTargetGroup, 
             IUpdateClassification classification, 
             UpdateCategoryCollection products, 
-            bool isTest)
+            bool isTest, 
+            bool shouldApproveUninstalledSupersededUpdate)
         {
             var searchScope = new UpdateScope { ApprovedStates = ApprovedStates.HasStaleUpdateApprovals };
 
@@ -455,7 +583,12 @@ namespace SmartApprove.Controller
             {
                 if (update.IsSuperseded)
                 {
-                    CheckSupersededUpdate(update, approveLicenseAgreement, isTest, recentlyApproved);
+                    CheckSupersededUpdate(
+                        update, 
+                        approveLicenseAgreement, 
+                        isTest, 
+                        recentlyApproved, 
+                        shouldApproveUninstalledSupersededUpdate);
                 }
             }
         }
@@ -487,7 +620,13 @@ namespace SmartApprove.Controller
             {
                 if (update.IsDeclined)
                 {
-                    Console.WriteLine("Update has been declined:" + update.Title);
+                    Console.WriteLine("Update has been declined: " + update.Title);
+                    continue;
+                }
+
+                if (IsUpdateMarkedForUninstall(update, targetGroup))
+                {
+                    Console.WriteLine("Update has been marked for uninstall: " + update.Title);
                     continue;
                 }
 
@@ -512,7 +651,7 @@ namespace SmartApprove.Controller
 
         /// <summary>
         /// This is the path run if there are no run sets in the app.config
-        /// This is the classic apply to all groups approach from 1.0.0.0
+        ///     This is the classic apply to all groups approach from 1.0.0.0
         /// </summary>
         /// <param name="settings">
         /// application settings
@@ -538,7 +677,14 @@ namespace SmartApprove.Controller
             {
                 // Check for superseded updates
                 Console.Out.WriteLine("Checking Superseded Updates: ");
-                CheckSupersededUpdates(server, defaultRule.AcceptLicenseAgreement, null, null, null, isTest);
+                CheckSupersededUpdates(
+                    server, 
+                    defaultRule.AcceptLicenseAgreement, 
+                    null, 
+                    null, 
+                    null, 
+                    isTest, 
+                    defaultRule.ShouldApproveUninstalledSupersededUpdate);
             }
 
             if (defaultRule.ApproveStaleUpdates)
@@ -571,7 +717,7 @@ namespace SmartApprove.Controller
             Console.WriteLine("Performing Run Set: " + runSet.Name);
 
             // get the target group rules
-            Model.Helper.Configuration.CheckIsValidRunSet(server, runSet);
+            Configuration.CheckIsValidRunSet(server, runSet);
 
             var alreadyProcessed = new List<IComputerTargetGroup>();
 
@@ -612,7 +758,10 @@ namespace SmartApprove.Controller
         /// The all Classifications.
         /// </param>
         private static void DoRunSetAllClassifications(
-            IUpdateServer server, IComputerTargetGroup ctg, bool isTest, Rule allClassifications)
+            IUpdateServer server, 
+            IComputerTargetGroup ctg, 
+            bool isTest, 
+            Rule allClassifications)
         {
             // TODO: support products in all classifications element
             // Microsoft.UpdateServices.Administration.UpdateCategoryCollection products = null;
@@ -629,7 +778,14 @@ namespace SmartApprove.Controller
             {
                 // Check for superseded updates
                 Console.Out.WriteLine("Checking Superseded Updates: ");
-                CheckSupersededUpdates(server, allClassifications.AcceptLicenseAgreement, ctg, null, null, isTest);
+                CheckSupersededUpdates(
+                    server, 
+                    allClassifications.AcceptLicenseAgreement, 
+                    ctg, 
+                    null, 
+                    null, 
+                    isTest, 
+                    allClassifications.ShouldApproveUninstalledSupersededUpdate);
             }
 
             if (allClassifications.ApproveStaleUpdates)
@@ -712,13 +868,24 @@ namespace SmartApprove.Controller
             if (classification.ApproveStaleUpdates)
             {
                 CheckStaleUpdates(
-                    server, classification.AcceptLicenseAgreement, computerTargetGroup, uc, products, isTest);
+                    server, 
+                    classification.AcceptLicenseAgreement, 
+                    computerTargetGroup, 
+                    uc, 
+                    products, 
+                    isTest);
             }
 
             if (classification.ApproveSupersededUpdates)
             {
                 CheckSupersededUpdates(
-                    server, classification.AcceptLicenseAgreement, computerTargetGroup, uc, products, isTest);
+                    server, 
+                    classification.AcceptLicenseAgreement, 
+                    computerTargetGroup, 
+                    uc, 
+                    products, 
+                    isTest, 
+                    classification.ShouldApproveUninstalledSupersededUpdate);
             }
 
             if (classification.ApproveNeededUpdates)
@@ -791,7 +958,10 @@ namespace SmartApprove.Controller
         /// List of target groups that have already been processed
         /// </param>
         private static void DoRunSetTargetGroup(
-            IUpdateServer server, TargetGroup targetGroup, bool isTest, List<IComputerTargetGroup> alreadyProcessed)
+            IUpdateServer server, 
+            TargetGroup targetGroup, 
+            bool isTest, 
+            List<IComputerTargetGroup> alreadyProcessed)
         {
             Console.WriteLine("Processing Target Groups: " + targetGroup.Guid);
 
@@ -820,8 +990,8 @@ namespace SmartApprove.Controller
 
         /// <summary>
         /// This is run when there are a group of runsets in the app.config
-        /// Run Sets allow for different options to be run on different occasions
-        /// The runset is specified on the command line
+        ///     Run Sets allow for different options to be run on different occasions
+        ///     The runset is specified on the command line
         /// </summary>
         /// <param name="server">
         /// The WSUS Server
@@ -837,15 +1007,18 @@ namespace SmartApprove.Controller
         /// </param>
         private static void DoRunSets(
             // Model.ApplicationSettings settings,
-            IUpdateServer server, RunSetCollection runSets, CommandLine commandLine, bool isTest)
+            IUpdateServer server, 
+            RunSetCollection runSets, 
+            CommandLine commandLine, 
+            bool isTest)
         {
             // we need to work out which runset is being done
             // we'll limit the command line to one runset
             string requestedRunSet = commandLine.GetRunSetName();
 
             RunSet requiredRunSet =
-                runSets.Cast<RunSet>().FirstOrDefault(
-                    runSet => requestedRunSet.Equals(runSet.Name, StringComparison.OrdinalIgnoreCase));
+                runSets.Cast<RunSet>()
+                    .FirstOrDefault(runSet => requestedRunSet.Equals(runSet.Name, StringComparison.OrdinalIgnoreCase));
 
             if (requiredRunSet == null)
             {
@@ -870,7 +1043,8 @@ namespace SmartApprove.Controller
         /// collection of update categories
         /// </returns>
         private static UpdateCategoryCollection GetUpdateCategoryCollection(
-            IUpdateServer server, ProductCollection products)
+            IUpdateServer server, 
+            ProductCollection products)
         {
             if (products == null)
             {
@@ -894,6 +1068,32 @@ namespace SmartApprove.Controller
             return result;
         }
 
+        /// <summary>
+        /// The is update marked for uninstall.
+        /// </summary>
+        /// <param name="update">
+        /// The update.
+        /// </param>
+        /// <param name="targetGroup">
+        /// The target group.
+        /// </param>
+        /// <returns>
+        /// The <see cref="bool"/>.
+        /// </returns>
+        private static bool IsUpdateMarkedForUninstall(IUpdate update, IComputerTargetGroup targetGroup)
+        {
+            UpdateApprovalCollection approvals = update.GetUpdateApprovals(targetGroup);
+            foreach (IUpdateApproval approval in approvals)
+            {
+                if (approval.Action == UpdateApprovalAction.Uninstall)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         /*
         static bool AreUpdatesNeededSinceLastRun(
             Microsoft.UpdateServices.Administration.IUpdateServer server
@@ -915,29 +1115,33 @@ namespace SmartApprove.Controller
          * */
 
         /// <summary>
-        /// Shows the header information
+        ///     Shows the header information
         /// </summary>
         private static void ShowHeader()
         {
-            var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
             Console.Out.WriteLine("WSUS Smart Approve " + version + " (http://wsussmartapprove.codeplex.com)");
             Console.Out.WriteLine("(C)Copyright 2009-2012 DHGMS Solutions. Some Rights Reserved.\n");
         }
 
         /// <summary>
-        /// Shows the help information
+        ///     Shows the help information
         /// </summary>
         private static void ShowHelp()
         {
-            var arguments = new Dictionary<string, string> {
-                    { "/?", "Show help information." }, 
-                    { "/norunset", "Run using the no run set rule." }, 
-                    { "/runset name", "Run a particular RunSet, as specified in the app.config" }, 
-                    {
-                        "/test", 
-                        "Run in test mode. Changes will not be performed to WSUS, but will be displayed on the screen."
-                        }
-                };
+            var arguments = new Dictionary<string, string>
+                                {
+                                    { "/?", "Show help information." }, 
+                                    { "/norunset", "Run using the no run set rule." }, 
+                                    {
+                                        "/runset name", 
+                                        "Run a particular RunSet, as specified in the app.config"
+                                    }, 
+                                    {
+                                        "/test", 
+                                        "Run in test mode. Changes will not be performed to WSUS, but will be displayed on the screen."
+                                    }
+                                };
 
             foreach (var kvp in arguments)
             {
@@ -945,71 +1149,6 @@ namespace SmartApprove.Controller
             }
         }
 
-        public void Execute()
-        {
-            ShowHeader();
-
-            var args = Environment.GetCommandLineArgs().Skip(1).ToArray();
-            if (!args.Any())
-            {
-                ShowHelp();
-                return;
-            }
-
-            var commandLine = new CommandLine(args);
-            if (commandLine.GetWantsHelp())
-            {
-                ShowHelp();
-                return;
-            }
-            // todo: add support for job monitoring
-
-            // Check config file
-            ApplicationSettings settings = LoadSettings();
-
-            // Connect to server
-            IUpdateServer server = Server.Connect(settings.Server);
-
-            // Check user has admin access
-            UpdateServerUserRole role = server.GetCurrentUserRole();
-            if (role != UpdateServerUserRole.Administrator)
-            {
-                throw new UnauthorizedAccessException("You don't have administrator access on the WSUS server.");
-            }
-
-            // Get the default rule
-            bool isTest = commandLine.GetIsTest();
-            RunSetCollection runSets = settings.RunSets;
-
-            switch (commandLine.GetUseRunSet())
-            {
-                case TriState.Yes:
-                    if (runSets == null || runSets.Count == 0)
-                    {
-                        throw new InvalidOperationException(
-                            "/runset specified on the command line.  But there are no runsets defined in the config file.");
-                    }
-
-                    // we have run sets
-                    // this means our approval logic is more complex
-                    DoRunSets(server, runSets, commandLine, isTest);
-
-                    break;
-
-                case TriState.No:
-                    DoNoRunSets(settings, server, isTest);
-
-                    break;
-
-                default:
-                    if (runSets != null && runSets.Count > 0)
-                    {
-                        throw new InvalidOperationException(
-                            "RunSets exist in the application config. /norunset or /runset must be specified on the command line.");
-                    }
-
-                    break;
-            }
-        }
+        #endregion
     }
 }
