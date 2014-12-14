@@ -7,9 +7,11 @@
 
 namespace SmartLib.Controller
 {
+    using System;
+
     using Microsoft.UpdateServices.Administration;
 
-    public sealed class Server
+    public static class Server
     {
         /// <summary>
         /// Connects to local WSUS server
@@ -49,6 +51,11 @@ namespace SmartLib.Controller
         /// </returns>
         public static UpdateCategoryCollection GetRootUpdateCategories(IUpdateServer server)
         {
+            if (server == null)
+            {
+                throw new ArgumentNullException("server");
+            }
+
             return server.GetRootUpdateCategories();
         }
 
@@ -63,6 +70,11 @@ namespace SmartLib.Controller
         /// </returns>
         public static UpdateClassificationCollection GetUpdateClassifications(IUpdateServer server)
         {
+            if (server == null)
+            {
+                throw new ArgumentNullException("server");
+            }
+
             return server.GetUpdateClassifications();
         }
 
@@ -75,6 +87,11 @@ namespace SmartLib.Controller
         /// <returns></returns>
         public static IComputerTargetGroup GetRootTargetGroup(IUpdateServer server)
         {
+            if (server == null)
+            {
+                throw new ArgumentNullException("server");
+            }
+
             return server.GetComputerTargetGroup(Microsoft.UpdateServices.Administration.ComputerTargetGroupId.AllComputers);
         }
     }

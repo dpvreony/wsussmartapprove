@@ -1121,7 +1121,7 @@ namespace SmartApprove.Controller
         {
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             Console.Out.WriteLine("WSUS Smart Approve " + version + " (http://wsussmartapprove.codeplex.com)");
-            Console.Out.WriteLine("(C)Copyright 2009-2012 DHGMS Solutions. Some Rights Reserved.\n");
+            Console.Out.WriteLine("(C)Copyright 2009-2014 DHGMS Solutions. Some Rights Reserved.\n");
         }
 
         /// <summary>

@@ -82,7 +82,8 @@ namespace SmartApprove.Test
 		public void MainTestNoArgs()
 		{
 			string[] args = {};
-			Program_Accessor.Main(args);
+
+            SmartApprove.Program.Main(args);
 		}
 
 
@@ -98,8 +99,8 @@ namespace SmartApprove.Test
 				"/test",
 				"/norunset"
 			};
-			Program_Accessor.Main(args);
-		}
+            SmartApprove.Program.Main(args);
+        }
 
 		/// <summary>
 		///A test for Main
@@ -118,8 +119,8 @@ namespace SmartApprove.Test
 
 			try
 			{
-				Program_Accessor.Main(args);
-			}
+                SmartApprove.Program.Main(args);
+            }
 			catch (System.ArgumentException)
 			{
 				return;
@@ -141,8 +142,8 @@ namespace SmartApprove.Test
 				"normal"
 			};
 
-			Program_Accessor.Main(args);
-		}
+            SmartApprove.Program.Main(args);
+        }
 
 		/// <summary>
 		///A test for Main
@@ -158,8 +159,8 @@ namespace SmartApprove.Test
 				"AllComputerGroups_AllClassifications"
 			};
 
-			Program_Accessor.Main(args);
-		}
+            SmartApprove.Program.Main(args);
+        }
 
 		/// <summary>
 		///A test for Main
@@ -172,8 +173,9 @@ namespace SmartApprove.Test
 			{
 				"/?"
 			};
-			Program_Accessor.Main(args);
-		}
+
+            SmartApprove.Program.Main(args);
+        }
 
 		/// <summary>
 		///this test checks to make sure specifying a runset with both target group settings fails
@@ -191,8 +193,8 @@ namespace SmartApprove.Test
 
 			try
 			{
-				Program_Accessor.Main(args);
-			}
+                SmartApprove.Program.Main(args);
+            }
 			catch (System.Exception)
 			{
 				return;
@@ -216,8 +218,8 @@ namespace SmartApprove.Test
 
 			try
 			{
-				Program_Accessor.Main(args);
-			}
+                SmartApprove.Program.Main(args);
+            }
 			catch (System.Exception)
 			{
 				return;
@@ -241,8 +243,8 @@ namespace SmartApprove.Test
 
 			try
 			{
-				Program_Accessor.Main(args);
-			}
+                SmartApprove.Program.Main(args);
+            }
 			catch (System.Exception)
 			{
 				return;
@@ -266,8 +268,8 @@ namespace SmartApprove.Test
 
 			try
 			{
-				Program_Accessor.Main(args);
-			}
+                SmartApprove.Program.Main(args);
+            }
 			catch (System.Exception)
 			{
 				return;
@@ -291,8 +293,8 @@ namespace SmartApprove.Test
 
 			try
 			{
-				Program_Accessor.Main(args);
-			}
+                SmartApprove.Program.Main(args);
+            }
 			catch (System.Exception)
 			{
 				return;
@@ -314,8 +316,8 @@ namespace SmartApprove.Test
 				"AllComputerGroups_SpecificCategory_SpecificProduct"
 			};
 
-			Program_Accessor.Main(args);
-		}
+            SmartApprove.Program.Main(args);
+        }
 
 		/// <summary>
 		/// This test should fail as the product id is invalid
@@ -333,8 +335,8 @@ namespace SmartApprove.Test
 
 			try
 			{
-				Program_Accessor.Main(args);
-			}
+                SmartApprove.Program.Main(args);
+            }
 			catch (System.Exception)
 			{
 				return;

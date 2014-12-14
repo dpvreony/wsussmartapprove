@@ -1,0 +1,1 @@
+﻿To get started with WSUS Smart Approve check the documentation located at http://dhgms-solutions.github.io/wsussmartapprove/

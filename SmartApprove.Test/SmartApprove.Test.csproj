@@ -119,18 +119,17 @@
     <Content Include="AuthoringTests.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\smartapprove\SmartApprove.csproj">
+    <ProjectReference Include="..\smartapprove\Dhgms.WsusSmartApprove.Cmd.csproj">
       <Project>{B7D3C708-059A-41F4-A089-042E604DF3B1}</Project>
-      <Name>SmartApprove</Name>
+      <Name>Dhgms.WsusSmartApprove.Cmd</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SmartLib\SmartLib.csproj">
+    <ProjectReference Include="..\SmartLib\Dhgms.WsusSmartApprove.Core.csproj">
       <Project>{94E05F74-1F2B-4C4F-90A7-4A1E56B0D67F}</Project>
-      <Name>SmartLib</Name>
+      <Name>Dhgms.WsusSmartApprove.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Shadow Include="Test References\smartapprove.accessor" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

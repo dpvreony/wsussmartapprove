@@ -8,8 +8,8 @@
     <ProjectGuid>{94E05F74-1F2B-4C4F-90A7-4A1E56B0D67F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SmartLib</RootNamespace>
-    <AssemblyName>SmartLib</AssemblyName>
+    <RootNamespace>Dhgms.WsusSmartApprove.Core</RootNamespace>
+    <AssemblyName>Dhgms.WsusSmartApprove.Core</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>

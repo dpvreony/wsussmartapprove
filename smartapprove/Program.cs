@@ -62,7 +62,7 @@ namespace SmartApprove
         /// <param name="args">
         /// command line arguments
         /// </param>
-        private static void Main(string[] args)
+        public static void Main(string[] args)
         {
             var job = new Job();
             job.Execute();

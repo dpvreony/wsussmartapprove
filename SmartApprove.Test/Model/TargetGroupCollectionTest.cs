@@ -87,7 +87,7 @@ namespace SmartApprove.Test
 		[DeploymentItem("smartapprove.exe")]
 		public void CreateNewElementTest()
 		{
-			TargetGroupCollection_Accessor target = new TargetGroupCollection_Accessor(); // TODO: Initialize to an appropriate value
+			TargetGroupCollection target = new TargetGroupCollection(); // TODO: Initialize to an appropriate value
 			ConfigurationElement actual = target.CreateNewElement();
 			Assert.AreNotEqual(null, actual);
 		}
@@ -99,7 +99,7 @@ namespace SmartApprove.Test
 		[DeploymentItem("smartapprove.exe")]
 		public void GetElementKeyTest()
 		{
-			TargetGroupCollection_Accessor target = new TargetGroupCollection_Accessor();
+			TargetGroupCollection target = new TargetGroupCollection();
 			ConfigurationElement element = target.CreateNewElement();
 			object actual = target.GetElementKey(element);
 			Assert.AreNotEqual(null, actual);
