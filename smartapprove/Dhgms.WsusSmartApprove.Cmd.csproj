@@ -8,8 +8,8 @@
     <ProjectGuid>{B7D3C708-059A-41F4-A089-042E604DF3B1}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SmartApprove</RootNamespace>
-    <AssemblyName>SmartApprove</AssemblyName>
+    <RootNamespace>Dhgms.WsusSmartApprove.Cmd</RootNamespace>
+    <AssemblyName>WsusSmartApprove</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -125,7 +125,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="License.txt" />
+    <Content Include="License.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ReadMe.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -134,9 +139,9 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SmartLib\SmartLib.csproj">
+    <ProjectReference Include="..\SmartLib\Dhgms.WsusSmartApprove.Core.csproj">
       <Project>{94E05F74-1F2B-4C4F-90A7-4A1E56B0D67F}</Project>
-      <Name>SmartLib</Name>
+      <Name>Dhgms.WsusSmartApprove.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

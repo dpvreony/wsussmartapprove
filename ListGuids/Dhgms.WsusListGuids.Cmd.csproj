@@ -8,8 +8,8 @@
     <ProjectGuid>{70DD178B-3816-470B-87D1-4BBC711C124C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ListGuids</RootNamespace>
-    <AssemblyName>ListGuids</AssemblyName>
+    <RootNamespace>Dhgms.WsusListGuids.Cmd</RootNamespace>
+    <AssemblyName>WsusListGuids</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -104,9 +104,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SmartLib\SmartLib.csproj">
+    <ProjectReference Include="..\SmartLib\Dhgms.WsusSmartApprove.Core.csproj">
       <Project>{94E05F74-1F2B-4C4F-90A7-4A1E56B0D67F}</Project>
-      <Name>SmartLib</Name>
+      <Name>Dhgms.WsusSmartApprove.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

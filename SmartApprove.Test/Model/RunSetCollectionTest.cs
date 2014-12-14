@@ -87,9 +87,8 @@ namespace SmartApprove.Test
 		[DeploymentItem("smartapprove.exe")]
 		public void CreateNewElementTest()
 		{
-			RunSetCollection_Accessor target = new RunSetCollection_Accessor();
-			ConfigurationElement actual = target.CreateNewElement();
-			Assert.AreNotEqual(null, actual);
+            var instance = new SmartApprove.Model.RunSetCollection();
+            Assert.AreNotEqual(null, instance);
 		}
 
 		/// <summary>

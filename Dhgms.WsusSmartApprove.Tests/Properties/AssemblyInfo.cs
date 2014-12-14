@@ -1,15 +1,16 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WSUS Smart Approve")]
+[assembly: AssemblyTitle("Dhgms.WsusSmartApprove.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("DHGMS Solutions")]
-[assembly: AssemblyProduct("WSUS Smart Approve")]
-[assembly: AssemblyCopyright("Copyright © DHGMS Solutions 2009-2014")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Dhgms.WsusSmartApprove.Tests")]
+[assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("2218c5f5-b49f-48ec-a48b-55badb2d9011")]
+[assembly: Guid("6a1ed1bb-ce9f-4d95-b38f-7f6da0f4fad1")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -31,7 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.5.0")]
-[assembly: AssemblyFileVersion("1.0.5.0")]
-
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("SmartApprove.Test")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
