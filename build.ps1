@@ -1,6 +1,8 @@
 $ErrorActionPreference = 'Stop'
 
-$solutionName = 'Dhgms.NetContrib'
+Install-WindowsFeature UpdateServices-API
+
+$solutionName = 'WsusSmartApprove'
 $solutionPath = 'src\\' + $solutionName + '.sln'
 $testProject = 'src\\' + $solutionName + '.UnitTests\\' + $solutionName + '.UnitTests.csproj'
 
@@ -54,7 +56,7 @@ snitch src --strict > artifacts\snitch\snitch.txt
 CreateDirectoryIfItDoesNotExist('.\artifacts\omd');
 generateomd.exe /source=src /output=artifacts\omd\index.htm /format=html
 
-CreateDirectoryIfItDoesNotExist('.\artifacts\docfx');
-Remove-Item 'artifacts\docfx\*.*' -Recurse
-xcopy src\docfx_project\_site artifacts\docfx /E /I /Y
+#CreateDirectoryIfItDoesNotExist('.\artifacts\docfx');
+#Remove-Item 'artifacts\docfx\*.*' -Recurse
+#xcopy src\docfx_project\_site artifacts\docfx /E /I /Y
 
