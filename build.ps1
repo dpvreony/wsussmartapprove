@@ -1,6 +1,10 @@
 $ErrorActionPreference = 'Stop'
 
-Install-WindowsFeature UpdateServices-API
+$osInfo = Get-WmiObject -Class Win32_OperatingSystem
+if ($osInfo.ProductType -eq "Server")
+{
+	Install-WindowsFeature UpdateServices-API
+}
 
 $solutionName = 'WsusSmartApprove'
 $solutionPath = 'src\\' + $solutionName + '.sln'
@@ -44,8 +48,8 @@ if ($runSonar)
 
 dotnet test $testProject --configuration Release --no-build --nologo --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover /bl:artifacts\\binlog\\test.binlog
 
-CreateDirectoryIfItDoesNotExist('.\artifacts\nupkg');
-dotnet pack $solutionPath --configuration Release --no-build /bl:artifacts\\binlog\\test.binlog /p:PackageOutputPath=..\artifacts\nupkg
+#CreateDirectoryIfItDoesNotExist('.\artifacts\nupkg');
+#dotnet pack $solutionPath --configuration Release --no-build /bl:artifacts\\binlog\\test.binlog /p:PackageOutputPath=..\artifacts\nupkg
 
 CreateDirectoryIfItDoesNotExist('.\artifacts\outdated');
 dotnet outdated -o artifacts\outdated\outdated.json src
