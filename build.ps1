@@ -1,14 +1,12 @@
 $ErrorActionPreference = 'Stop'
 
-$osInfo = Get-WmiObject -Class Win32_OperatingSystem
-if ($osInfo.ProductType -eq "Server")
-{
-	Install-WindowsFeature UpdateServices-API
-}
-else
-{
-	Get-WindowsCapability -Name "RSAT.WSUS.TOOLS*" -Online | Add-WindowsCapability –Online
-}
+#$osInfo = Get-WmiObject -Class Win32_OperatingSystem
+#if ($osInfo.ProductType -eq "Server")
+#{
+	#Install-WindowsFeature UpdateServices-API
+#} else {
+    #Get-WindowsCapability -Name 'RSAT.WSUS.TOOLS*' -Online | Add-WindowsCapability –Online
+#}
 
 $solutionName = 'WsusSmartApprove'
 $solutionPath = 'src\\' + $solutionName + '.sln'
