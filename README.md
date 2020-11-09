@@ -11,7 +11,7 @@ This tool has been tested with WSUS 3.0 (all service packs) and Microsoft System
 
 ## Viewing the documentation
 
-The documentation can be found at http://dhgms-solutions.github.com/wsussmartapprove/
+The documentation can be found at https://dpvreony.github.io/wsussmartapprove
 
 ## Contributing to the code
 
