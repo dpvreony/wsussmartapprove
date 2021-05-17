@@ -7,7 +7,7 @@ if ($osInfo.ProductType -eq "Server")
 }
 else
 {
-	Get-WindowsCapability -Name "RSAT.WSUS.TOOLS*" -Online | Add-WindowsCapability –Online
+    Get-WindowsCapability -Name 'RSAT.WSUS.TOOLS*' -Online | Add-WindowsCapability -Online
 }
 
 $solutionName = 'WsusSmartApprove'

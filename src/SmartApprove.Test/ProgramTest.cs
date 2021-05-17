@@ -5,80 +5,24 @@
 // http://wsussmartapprove.codeplex.com
 //////////////////////////////////////////////////////////////////////////
 
-using SmartApprove;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.UpdateServices.Administration;
 using System;
-using System.Collections.Generic;
-using SmartApprove.Model;
-using SmartApprove.Controller;
+using Xunit;
 
 namespace SmartApprove.Test
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for ProgramTest and is intended
     ///to contain all ProgramTest Unit Tests
     ///</summary>
-	[TestClass()]
 	public class ProgramTest
 	{
-
-
-		private TestContext testContextInstance;
-
-		/// <summary>
-		///Gets or sets the test context which provides
-		///information about and functionality for the current test run.
-		///</summary>
-		public TestContext TestContext
-		{
-			get
-			{
-				return testContextInstance;
-			}
-			set
-			{
-				testContextInstance = value;
-			}
-		}
-
-		#region Additional test attributes
-		// 
-		//You can use the following additional attributes as you write your tests:
-		//
-		//Use ClassInitialize to run code before running the first test in the class
-		//[ClassInitialize()]
-		//public static void MyClassInitialize(TestContext testContext)
-		//{
-		//}
-		//
-		//Use ClassCleanup to run code after all tests in a class have run
-		//[ClassCleanup()]
-		//public static void MyClassCleanup()
-		//{
-		//}
-		//
-		//Use TestInitialize to run code before running each test
-		//[TestInitialize()]
-		//public void MyTestInitialize()
-		//{
-		//}
-		//
-		//Use TestCleanup to run code after each test has run
-		//[TestCleanup()]
-		//public void MyTestCleanup()
-		//{
-		//}
-		//
-		#endregion
 
 		/// <summary>
 		///A test for Main
 		///</summary>
-		[TestMethod()]
-		[DeploymentItem("smartapprove.exe")]
+		[Fact]
 		public void MainTestNoArgs()
 		{
 			string[] args = {};
@@ -90,8 +34,7 @@ namespace SmartApprove.Test
 		/// <summary>
 		///A test for Main
 		///</summary>
-		[TestMethod()]
-		[DeploymentItem("smartapprove.exe")]
+        [Fact]
 		public void MainTestNoRunSet()
 		{
 			string[] args =
@@ -105,8 +48,7 @@ namespace SmartApprove.Test
 		/// <summary>
 		///A test for Main
 		///</summary>
-		[TestMethod()]
-		[DeploymentItem("smartapprove.exe")]
+        [Fact]
 		public void MainTestNoRunSetAndRunSet()
 		{
 			string[] args =
@@ -117,22 +59,13 @@ namespace SmartApprove.Test
 				"runsetname"
 			};
 
-			try
-			{
-                SmartApprove.Program.Main(args);
-            }
-			catch (System.ArgumentException)
-			{
-				return;
-			}
-			Assert.Fail("should have thrown an exception");
-		}
+            Assert.Throws<ArgumentException>(() => SmartApprove.Program.Main(args));
+        }
 
 		/// <summary>
 		///A test for Main
 		///</summary>
-		[TestMethod()]
-		[DeploymentItem("smartapprove.exe")]
+        [Fact]
 		public void MainTestRunSet()
 		{
 			string[] args =
@@ -148,8 +81,7 @@ namespace SmartApprove.Test
 		/// <summary>
 		///A test for Main
 		///</summary>
-		[TestMethod()]
-		[DeploymentItem("smartapprove.exe")]
+        [Fact]
 		public void MainTest_AllComputerGroups_AllClassifications()
 		{
 			string[] args =
@@ -165,8 +97,7 @@ namespace SmartApprove.Test
 		/// <summary>
 		///A test for Main
 		///</summary>
-		[TestMethod()]
-		[DeploymentItem("smartapprove.exe")]
+        [Fact]
 		public void MainTestHelp()
 		{
 			string[] args =
@@ -180,8 +111,7 @@ namespace SmartApprove.Test
 		/// <summary>
 		///this test checks to make sure specifying a runset with both target group settings fails
 		///</summary>
-		[TestMethod()]
-		[DeploymentItem("smartapprove.exe")]
+        [Fact]
 		public void MainTestBothTargetGroupSettings()
 		{
 			string[] args =
@@ -191,22 +121,13 @@ namespace SmartApprove.Test
 				"BothTargetGroups"
 			};
 
-			try
-			{
-                SmartApprove.Program.Main(args);
-            }
-			catch (System.Exception)
-			{
-				return;
-			}
-			Assert.Fail("should have thrown an exception");
+            Assert.Throws<ArgumentException>(() => SmartApprove.Program.Main(args));
 		}
 
 		/// <summary>
 		/// This test should fail as both classifications are provided
 		/// </summary>
-		[TestMethod()]
-		[DeploymentItem("smartapprove.exe")]
+        [Fact]
 		public void MainTest_AllComputers_BothClassSettings()
 		{
 			string[] args =
@@ -216,22 +137,13 @@ namespace SmartApprove.Test
 				"AllComputerGroups_BothClassSetting"
 			};
 
-			try
-			{
-                SmartApprove.Program.Main(args);
-            }
-			catch (System.Exception)
-			{
-				return;
-			}
-			Assert.Fail("should have thrown an exception");
+            Assert.Throws<ArgumentException>(() => SmartApprove.Program.Main(args));
 		}
 
 		/// <summary>
 		/// This test should fail as both classifications are provided
 		/// </summary>
-		[TestMethod()]
-		[DeploymentItem("smartapprove.exe")]
+        [Fact]
 		public void MainTest_SpecificGroup_BothClassifications()
 		{
 			string[] args =
@@ -241,22 +153,13 @@ namespace SmartApprove.Test
 				"SpecificGroup_BothClassifications"
 			};
 
-			try
-			{
-                SmartApprove.Program.Main(args);
-            }
-			catch (System.Exception)
-			{
-				return;
-			}
-			Assert.Fail("should have thrown an exception");
+            Assert.Throws<ArgumentException>(() => SmartApprove.Program.Main(args));
 		}
 
 		/// <summary>
 		/// This test should fail as both classifications are provided
 		/// </summary>
-		[TestMethod()]
-		[DeploymentItem("smartapprove.exe")]
+        [Fact]
 		public void MainTest_IncorrectGroup()
 		{
 			string[] args =
@@ -266,22 +169,13 @@ namespace SmartApprove.Test
 				"IncorrectGroup"
 			};
 
-			try
-			{
-                SmartApprove.Program.Main(args);
-            }
-			catch (System.Exception)
-			{
-				return;
-			}
-			Assert.Fail("should have thrown an exception");
+            Assert.Throws<ArgumentException>(() => SmartApprove.Program.Main(args));
 		}
 
 		/// <summary>
 		/// This test should fail as both classifications are provided
 		/// </summary>
-		[TestMethod()]
-		[DeploymentItem("smartapprove.exe")]
+        [Fact]
 		public void MainTest_SpecificGroup_IncorrectClassification()
 		{
 			string[] args =
@@ -291,22 +185,13 @@ namespace SmartApprove.Test
 				"SpecificGroup_IncorrectClassification"
 			};
 
-			try
-			{
-                SmartApprove.Program.Main(args);
-            }
-			catch (System.Exception)
-			{
-				return;
-			}
-			Assert.Fail("should have thrown an exception");
+            Assert.Throws<ArgumentException>(() => SmartApprove.Program.Main(args));
 		}
 
 		/// <summary>
 		///A test for a specific category and product
 		///</summary>
-		[TestMethod()]
-		[DeploymentItem("smartapprove.exe")]
+        [Fact]
 		public void MainTest_AllComputerGroups_SpecificCategory_SpecificProduct()
 		{
 			string[] args =
@@ -322,8 +207,7 @@ namespace SmartApprove.Test
 		/// <summary>
 		/// This test should fail as the product id is invalid
 		/// </summary>
-		[TestMethod()]
-		[DeploymentItem("smartapprove.exe")]
+        [Fact]
 		public void MainTest_SpecificGroup_IncorrectProduct()
 		{
 			string[] args =
@@ -333,16 +217,7 @@ namespace SmartApprove.Test
 				"AllComputerGroups_SpecificCategory_InvalidProduct"
 			};
 
-			try
-			{
-                SmartApprove.Program.Main(args);
-            }
-			catch (System.Exception)
-			{
-				return;
-			}
-			Assert.Fail("should have thrown an exception");
+            Assert.Throws<ArgumentException>(() => SmartApprove.Program.Main(args));
 		}
-
-	}
+    }
 }
