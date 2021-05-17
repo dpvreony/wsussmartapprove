@@ -10,17 +10,32 @@ jobs:
   build:
     runs-on: windows-latest
     env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_NOLOGO: true
+      DOTNET_GENERATE_ASPNET_CERTIFICATE: false
       solutionpath: src\WsusSmartApprove.sln
       unittestprojectpath: src\WsusSmartApprove.UnitTests\WsusSmartApprove.UnitTests.csproj
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        
+    - name: Setup .NET Core 3.1
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.301
+        dotnet-version: 3.1.x
+
+    - name: Setup .NET 5
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@0e477eda777a6587a64c4fd7dd54af60bd75f192
+      uses: microsoft/setup-msbuild@1982f45c4877fb5ee2ed3a4d01a3fe957ece8bf7
+      
     - name: Install RSAT WSUS tools
       run: Install-WindowsFeature UpdateServices-API
       shell: powershell
