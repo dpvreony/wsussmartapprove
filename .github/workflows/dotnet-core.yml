@@ -39,9 +39,37 @@ jobs:
     - name: Install RSAT WSUS tools
       run: Install-WindowsFeature UpdateServices-API
       shell: powershell
-    - name: Build
-      run: .\build.ps1
-      shell: powershell
+
+    - name: Install dotnet tools
+      run: |
+        dotnet tool install --global dotMorten.OmdGenerator
+        dotnet tool install --global ConfigValidate
+        dotnet tool install --global dotnet-outdated-tool
+        dotnet tool install --global snitch
+        dotnet tool install --global dotnet-sonarscanner
+        dotnet tool install --global JetBrains.ReSharper.GlobalTools
+
+    - name: Prepare Artifact Directory
+      run: |
+        mkdir artifacts
+        mkdir artifacts\nupkg
+        mkdir artifacts\outdated
+        mkdir artifacts\snitch
+        mkdir artifacts\omd
+        mkdir artifacts\docfx
+
+    - name: Restore Packages
+      run: |
+        dotnet restore ${{ env.solutionpath }} /bl:artifacts\\binlog\\restore.binlog
+
+    - name: Run Build
+      run: |
+        dotnet build ${{ env.solutionpath }} --configuration Release --no-restore /bl:artifacts\\binlog\\build.binlog /p:ContinuousIntegrationBuild=true 
+
+    - name: Run Unit Tests
+      run: |
+        dotnet test ${{ env.unittestprojectpath }} --configuration Release --no-build /bl:artifacts\\binlog\\unittest.binlog --nologo --blame-hang-timeout 60000 --results-directory artifacts\opencover --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+
       
 # only store binlog on failure      
     - name: store binlogs
