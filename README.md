@@ -9,6 +9,10 @@ Only a small portion of these will ever be needed, so allowing a machine to repo
 
 This tool has been tested with WSUS 3.0 (all service packs) and Microsoft System Center Essentials 2010.
 
+## Current Status
+
+This project has no new development taking place at this time. Support and maintenance will be carried out as time permits.
+
 ## Viewing the documentation
 
 The documentation can be found at https://dpvreony.github.io/wsussmartapprove
