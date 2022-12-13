@@ -34,7 +34,7 @@ jobs:
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@8c3da926c2d6cd99b6f0be5b21f28f68788d3e4a
+      uses: microsoft/setup-msbuild@0b93bd95fcb2aa00c561d52afdc17c2c83580fe7
       
     - name: Install RSAT WSUS tools
       run: Install-WindowsFeature UpdateServices-API
