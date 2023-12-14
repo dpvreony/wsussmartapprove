@@ -74,42 +74,42 @@ jobs:
 # only store binlog on failure      
     - name: store binlogs
       if: ${{ failure() }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: binlogs
         path: artifacts/binlog
         
     - name: store docfx
       if: ${{ !startsWith(github.ref, 'refs/heads/dependabot') }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: docfx
         path: artifacts/docfx
         
     - name: store nuget packages
       if: ${{ !startsWith(github.ref, 'refs/heads/dependabot') }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: nuget
         path: artifacts/nuget
         
     - name: store omd
       if: ${{ !startsWith(github.ref, 'refs/heads/dependabot') }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: omd
         path: artifacts/omd
         
     - name: store outdated
       if: ${{ !startsWith(github.ref, 'refs/heads/dependabot') }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: outdated
         path: artifacts/outdated
         
     - name: store snitch
       if: ${{ !startsWith(github.ref, 'refs/heads/dependabot') }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: snitch
         path: artifacts/snitch
